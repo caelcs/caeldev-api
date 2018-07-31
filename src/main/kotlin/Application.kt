@@ -1,14 +1,11 @@
-
-class Application(filename: String) {
+class Application(val filename: String) {
     fun run() {
-        println("Hello, world!")
+        val entries = CSVHandler(filename).readEntries()
+        println(entries)
     }
 }
 
 fun main(args: Array<String>) {
-    if (args.isNotEmpty()) {
-        Application(args[0]).run()
-    } else {
-        throw IllegalArgumentException("missing arguments")
-    }
+    require(args.isNotEmpty())
+    Application(args[0]).run()
 }

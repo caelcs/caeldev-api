@@ -33,4 +33,19 @@ internal class CSVHandlerTests {
         //Then
         assertThat(exception).isInstanceOf(IllegalArgumentException::class.java)
     }
+
+    @Test
+    fun `should fail when there is one field`() {
+        //Given
+        val filename = "test_one_field.csv"
+
+        //When
+        val exception = assertThrows(IllegalArgumentException::class.java) {
+            CSVHandler(filename).readEntries()
+        }
+
+        //Then
+        assertThat(exception).isInstanceOf(IllegalArgumentException::class.java)
+        assertThat(exception.message).isEqualTo("CSV file shuold contains 2 fields at least")
+    }
 }

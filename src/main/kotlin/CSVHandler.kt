@@ -13,6 +13,7 @@ class CSVHandler(filename: String) {
     private fun buildEntries(lines: List<String>): List<CustomerEntry> {
         return lines.map {
             val fields = it.split(",")
+            require(fields.size == 2, {"CSV file shuold contains 2 fields at least"})
             val email = fields[0]
             val brand = fields[1]
             Pair(email, brand)

@@ -12,7 +12,7 @@ class SQLScriptGenerator {
 
 }
 
-object StepFactory {
+internal object StepFactory {
 
     private val steps: Map<StepName, Step<Any>> = mapOf(Pair(StepName.VALIDATE_EMAILS, EmailAddressVerifyStep()),
             Pair(StepName.VALIDATE_ENTITLEMENTS, EntitlementVerifyStep()),
@@ -23,17 +23,17 @@ object StepFactory {
     }
 }
 
-enum class StepName {
+internal enum class StepName {
     VALIDATE_EMAILS, VALIDATE_ENTITLEMENTS, GENERATE_SCRIPTS
 }
 
-interface Step<out T> {
+internal interface Step<out T> {
 
     fun execute(source: List<CustomerEntry>): List<T>
 
 }
 
-class EmailAddressVerifyStep: Step<CustomerEntry> {
+internal class EmailAddressVerifyStep: Step<CustomerEntry> {
 
     override fun execute(source: List<CustomerEntry>): List<CustomerEntry> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -41,7 +41,7 @@ class EmailAddressVerifyStep: Step<CustomerEntry> {
 
 }
 
-class EntitlementVerifyStep: Step<CustomerEntry> {
+internal class EntitlementVerifyStep: Step<CustomerEntry> {
 
     override fun execute(source: List<CustomerEntry>): List<CustomerEntry> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -49,7 +49,7 @@ class EntitlementVerifyStep: Step<CustomerEntry> {
 
 }
 
-class GenerateSQLScriptsStep: Step<String> {
+internal class GenerateSQLScriptsStep: Step<String> {
 
     override fun execute(source: List<CustomerEntry>): List<String> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

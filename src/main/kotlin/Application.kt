@@ -1,7 +1,7 @@
 class Application(val filename: String) {
     fun run() {
         val entries = CSVHandler(filename).readEntries()
-        val sqlScripts = SQLScriptGenerator.generate(entries = entries)
+        val sqlScripts = SQLGenerator().scriptGenerator(entries = entries)
         println(sqlScripts)
     }
 }

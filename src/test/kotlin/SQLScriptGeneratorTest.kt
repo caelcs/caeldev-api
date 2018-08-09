@@ -6,5 +6,6 @@ internal class SQLScriptGeneratorTest {
     @Test
     fun `should generate scripts`() {
 
+
     }
 }

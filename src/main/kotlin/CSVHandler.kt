@@ -20,7 +20,7 @@ class CSVHandler(filename: String) {
         }.groupBy { it.second }.map { CustomerEntry(it.key, it.value) }.toList()
     }
 
-    private fun openFile(filename: String): File = try { File(ClassLoader.getSystemResource(filename).file) } catch(ex: Exception) { throw IllegalArgumentException("file $filename not found") }
+    private fun openFile(filename: String): File = try { File(ClassLoader.getSystemResource(filename).file) } catch(ex: Throwable) { throw IllegalArgumentException("file $filename not found") }
 
     fun readEntries(): List<CustomerEntry> {
         return entries

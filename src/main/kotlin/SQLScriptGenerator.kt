@@ -1,58 +1,28 @@
-class SQLScriptGenerator {
 
-    private val stepValidateEmail = StepFactory.get<CustomerEntry>(StepName.VALIDATE_EMAILS)
-    private val stepValidateEntitlement = StepFactory.get<CustomerEntry>(StepName.VALIDATE_ENTITLEMENTS)
-    private val generateScripts = StepFactory.get<String>(StepName.GENERATE_SCRIPTS)
-    
-    fun generate(entries: List<CustomerEntry>): List<String> {
-        val validEmails = stepValidateEmail.execute(entries)
-        val entitledEmails = stepValidateEntitlement.execute(validEmails)
-        return generateScripts.execute(entitledEmails)
+object SQLScriptGenerator {
+
+    fun generate(stepValidateEmail: (source: List<CustomerEntry>) -> List<CustomerEntry> = { source1: List<CustomerEntry> -> validateEmails(source1)},
+                 stepValidateEntitlement: (source: List<CustomerEntry>) -> List<CustomerEntry> = { source1: List<CustomerEntry> -> validateEntitlement(source1)},
+                 stepGenerateScripts: (source: List<CustomerEntry>) -> List<String> = { source1: List<CustomerEntry> -> generateScripts(source1)},
+                 entries: List<CustomerEntry>): List<String> {
+        val validEmails = stepValidateEmail(entries)
+        val entitledEmails = stepValidateEntitlement(validEmails)
+        return stepGenerateScripts(entitledEmails)
     }
 
-}
-
-internal object StepFactory {
-
-    private val steps: Map<StepName, Step<Any>> = mapOf(Pair(StepName.VALIDATE_EMAILS, EmailAddressVerifyStep()),
-            Pair(StepName.VALIDATE_ENTITLEMENTS, EntitlementVerifyStep()),
-            Pair(StepName.GENERATE_SCRIPTS, GenerateSQLScriptsStep()))
-
-    fun <T> get(stepName: StepName): Step<T> {
-        return steps[stepName]as Step<T>
+    internal inline fun validateEmails(source: List<CustomerEntry>): List<CustomerEntry> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates. // }
     }
-}
 
-internal enum class StepName {
-    VALIDATE_EMAILS, VALIDATE_ENTITLEMENTS, GENERATE_SCRIPTS
-}
+    internal inline fun validateEntitlement(source: List<CustomerEntry>): List<CustomerEntry> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
-internal interface Step<out T> {
-
-    fun execute(source: List<CustomerEntry>): List<T>
-
-}
-
-internal class EmailAddressVerifyStep: Step<CustomerEntry> {
-
-    override fun execute(source: List<CustomerEntry>): List<CustomerEntry> {
+    internal inline fun generateScripts(source: List<CustomerEntry>): List<String> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }
 
-internal class EntitlementVerifyStep: Step<CustomerEntry> {
 
-    override fun execute(source: List<CustomerEntry>): List<CustomerEntry> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
-}
-
-internal class GenerateSQLScriptsStep: Step<String> {
-
-    override fun execute(source: List<CustomerEntry>): List<String> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-}

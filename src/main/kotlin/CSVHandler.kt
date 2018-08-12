@@ -32,9 +32,10 @@ class CSVHandler(filename: String) {
 object Transformers {
 
     val groupByBrand = { entries: List<CustomerEntry> -> groupByBrand(entries) }
+
 }
 
-fun groupByBrand(entries: List<CustomerEntry>): List<CustomerEntry> {
+private fun groupByBrand(entries: List<CustomerEntry>): List<CustomerEntry> {
     return entries.groupBy { it.brand }
             .map { customer ->
                 CustomerEntry(customer.key, customer.value.flatMap { it.emails })

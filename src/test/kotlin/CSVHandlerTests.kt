@@ -11,7 +11,7 @@ internal class CSVHandlerTests {
         val filename = "test.csv"
 
         //When
-        val entries = CSVHandler(filename).buildEntries{ entries: List<CustomerEntry> -> groupByBrand(entries)}
+        val entries = CSVHandler(filename).buildEntries(Transformers.groupByBrand)
 
         //Then
         assertThat(entries).isNotEmpty
@@ -27,7 +27,7 @@ internal class CSVHandlerTests {
 
         //When
         val exception = assertThrows(IllegalArgumentException::class.java) {
-            CSVHandler(filename).buildEntries{ entries: List<CustomerEntry> -> groupByBrand(entries)}
+            CSVHandler(filename).buildEntries(Transformers.groupByBrand)
         }
 
         //Then
@@ -41,7 +41,7 @@ internal class CSVHandlerTests {
 
         //When
         val exception = assertThrows(IllegalArgumentException::class.java) {
-            CSVHandler(filename).buildEntries{ entries: List<CustomerEntry> -> groupByBrand(entries)}
+            CSVHandler(filename).buildEntries(Transformers.groupByBrand)
         }
 
         //Then

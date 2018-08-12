@@ -9,7 +9,7 @@ class CSVHandler(filename: String) {
                 .readLines()
     }
 
-    fun buildEntries(transform: (entries: List<CustomerEntry>) -> List<CustomerEntry> = { entries1: List<CustomerEntry> -> entries1}): List<CustomerEntry> {
+    fun buildEntries(transform: (entries: List<CustomerEntry>) -> List<CustomerEntry> = Transformers.noTransform): List<CustomerEntry> {
         val entriesFiltered = lines.map {
             val fields = it.split(",")
             require(fields.size == 2, { "CSV file should contains 2 fields at least" })
@@ -32,10 +32,11 @@ class CSVHandler(filename: String) {
 object Transformers {
 
     val groupByBrand = { entries: List<CustomerEntry> -> groupByBrand(entries) }
+    val noTransform = { entries1: List<CustomerEntry> -> entries1}
 
 }
 
-private fun groupByBrand(entries: List<CustomerEntry>): List<CustomerEntry> {
+fun groupByBrand(entries: List<CustomerEntry>): List<CustomerEntry> {
     return entries.groupBy { it.brand }
             .map { customer ->
                 CustomerEntry(customer.key, customer.value.flatMap { it.emails })

@@ -13,13 +13,13 @@ internal class SQLScriptGeneratorTest {
     @Test
     fun `should generate scripts`() {
         //Given
-        val customerEntry = arrayListOf(
-                CustomerEntry("brand1", arrayListOf(Pair("brand2", "info@gmail.com"))),
-                CustomerEntry("brand2", arrayListOf(Pair("brand1", "info1.cael@gmail.com"))))
+        val customerEntry = listOf(
+                CustomerEntry("brand1", listOf("info@gmail.com")),
+                CustomerEntry("brand2", listOf("info1.cael@gmail.com")))
 
         //And
-        val expectedFilteredEmails = arrayListOf(
-                CustomerEntry("brand1", arrayListOf(Pair("brand2", "info@gmail.com"))))
+        val expectedFilteredEmails = listOf(
+                CustomerEntry("brand1", listOf("info@gmail.com")))
         every { step1(customerEntry) } returns expectedFilteredEmails
 
         //and

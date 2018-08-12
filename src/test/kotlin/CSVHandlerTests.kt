@@ -11,13 +11,13 @@ internal class CSVHandlerTests {
         val filename = "test.csv"
 
         //When
-        val entries = CSVHandler(filename).readEntries()
+        val entries = CSVHandler(filename).buildEntries{ entries: List<CustomerEntry> -> groupByBrand(entries)}
 
         //Then
         assertThat(entries).isNotEmpty
         assertThat(entries).containsExactly(
-                CustomerEntry("CLARIN", Lists.list(Pair( "adolfoecs@gmail.com", "CLARIN"))),
-                CustomerEntry("INFOBAE", Lists.list(Pair( "info.cael@gmail.com", "INFOBAE"), Pair( "cael@gmail.com", "INFOBAE"))))
+                CustomerEntry("CLARIN", Lists.list( "adolfoecs@gmail.com")),
+                CustomerEntry("INFOBAE", Lists.list("info.cael@gmail.com", "cael@gmail.com")))
     }
 
     @Test
@@ -27,7 +27,7 @@ internal class CSVHandlerTests {
 
         //When
         val exception = assertThrows(IllegalArgumentException::class.java) {
-            CSVHandler(filename).readEntries()
+            CSVHandler(filename).buildEntries{ entries: List<CustomerEntry> -> groupByBrand(entries)}
         }
 
         //Then
@@ -41,11 +41,11 @@ internal class CSVHandlerTests {
 
         //When
         val exception = assertThrows(IllegalArgumentException::class.java) {
-            CSVHandler(filename).readEntries()
+            CSVHandler(filename).buildEntries{ entries: List<CustomerEntry> -> groupByBrand(entries)}
         }
 
         //Then
         assertThat(exception).isInstanceOf(IllegalArgumentException::class.java)
-        assertThat(exception.message).isEqualTo("CSV file shuold contains 2 fields at least")
+        assertThat(exception.message).isEqualTo("CSV file should contains 2 fields at least")
     }
 }

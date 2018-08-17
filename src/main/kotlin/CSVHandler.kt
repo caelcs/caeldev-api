@@ -2,30 +2,45 @@ import java.io.File
 
 class CSVHandler(filename: String) {
 
-    private val entries: List<CustomerEntry>
+    private val lines: List<String>
 
     init {
-        val csvFile = openFile(filename)
-        val lines = csvFile.readLines()
-        this.entries = this.buildEntries(lines)
+        lines = openFile(filename)
+                .readLines()
     }
 
-    private fun buildEntries(lines: List<String>): List<CustomerEntry> {
-        return lines.map {
+    fun buildEntries(transform: (entries: List<CustomerEntry>) -> List<CustomerEntry> = Transformers.noTransform): List<CustomerEntry> {
+        val entriesFiltered = lines.map {
             val fields = it.split(",")
-            require(fields.size == 2, {"CSV file shuold contains 2 fields at least"})
+            require(fields.size == 2, { "CSV file should contains 2 fields at least" })
             val email = fields[0]
             val brand = fields[1]
-            Pair(email, brand)
-        }.groupBy { it.second }.map { CustomerEntry(it.key, it.value) }.toList()
+            CustomerEntry(brand, listOf(email))
+        }.toList()
+        return transform(entriesFiltered)
     }
 
-    private fun openFile(filename: String): File = try { File(ClassLoader.getSystemResource(filename).file) } catch(ex: Throwable) { throw IllegalArgumentException("file $filename not found") }
-
-    fun readEntries(): List<CustomerEntry> {
-        return entries
+    private fun openFile(filename: String): File {
+        try {
+            return File(ClassLoader.getSystemResource(filename).file)
+        } catch (ex: Throwable) {
+            throw IllegalArgumentException("file $filename not found")
+        }
     }
 }
 
-data class CustomerEntry(val brand: String,
-                         val entries: List<Pair<String, String>>)
+object Transformers {
+
+    val groupByBrand = { entries: List<CustomerEntry> -> groupByBrand(entries) }
+    val noTransform = { entries1: List<CustomerEntry> -> entries1}
+
+}
+
+fun groupByBrand(entries: List<CustomerEntry>): List<CustomerEntry> {
+    return entries.groupBy { it.brand }
+            .map { customer ->
+                CustomerEntry(customer.key, customer.value.flatMap { it.emails })
+            }.toList()
+}
+
+data class CustomerEntry(val brand: String, val emails: List<String>)

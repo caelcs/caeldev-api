@@ -1,13 +1,10 @@
-class Application(val filename: String) {
+class Application() {
     fun run() {
-        val entries = CSVHandler(filename).buildEntries(Transformers.groupByBrand)
-        val sqlScripts = SQLGenerator()
-                .scriptGenerator(entries = entries)
-        println(sqlScripts)
+        println("hello world")
     }
 }
 
 fun main(args: Array<String>) {
     require(args.isNotEmpty())
-    Application(args[0]).run()
+    Application().run()
 }

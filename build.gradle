@@ -1,14 +1,24 @@
+buildscript {
+    project.ext {
+        ktor_version = '0.9.5'
+    }
+}
+
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.2.51'
+    id 'application'
+    id 'org.jetbrains.kotlin.jvm' version '1.2.70'
 }
 
 group 'uk.co.caeldev.api'
 version '1.0-SNAPSHOT'
+mainClassName = "io.ktor.server.netty.DevelopmentEngine"
 
 sourceCompatibility = 1.8
 
 repositories {
+    jcenter()
+    maven { url "https://dl.bintray.com/kotlin/ktor" }
     mavenCentral()
 }
 
@@ -16,14 +26,22 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation 'org.jdbi:jdbi3-kotlin:3.4.0'
     implementation 'org.jdbi:jdbi3-kotlin-sqlobject:3.4.0'
+    implementation "io.ktor:ktor-server-netty:$ktor_version"
+    implementation "ch.qos.logback:logback-classic:1.2.1"
 
-    testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.8.0-beta2'
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.2.0"
     testImplementation "org.junit.jupiter:junit-jupiter-params:5.2.0"
     testImplementation "org.assertj:assertj-core:3.10.0"
     testImplementation "io.mockk:mockk:1.8.6"
     testRuntime "org.junit.jupiter:junit-jupiter-engine:5.2.0"
 
+
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }
 
 compileKotlin {

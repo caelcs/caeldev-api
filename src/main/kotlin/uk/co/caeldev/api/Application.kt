@@ -1,3 +1,5 @@
+package uk.co.caeldev.api
+
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -10,18 +12,11 @@ import io.ktor.response.respondText
 import io.ktor.routing.Routing
 import io.ktor.routing.get
 import io.ktor.routing.routing
-import io.ktor.server.engine.embeddedServer
-import io.ktor.server.netty.Netty
 import org.slf4j.event.Level
 
-fun main(args: Array<String>) {
-    embeddedServer(Netty, port = 8080, module = Application::mainModule)
-            .start(wait = true)
-}
-
-fun Application.mainModule() {
+fun Application.main() {
     install(StatusPages){
-        exception<Throwable> { cause ->
+        exception<Throwable> { _ ->
             call.respond(HttpStatusCode.InternalServerError)
         }
     }
@@ -30,6 +25,7 @@ fun Application.mainModule() {
         level = Level.INFO
         filter { call -> call.request.path().startsWith("/") }
     }
+
     routing {
         root()
     }

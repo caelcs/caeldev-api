@@ -12,6 +12,4 @@
     <logger name="org.eclipse.jetty" level="INFO"/>
     <logger name="io.netty" level="INFO"/>
 
-    <logger name="Elemental.Loader" level="INFO"/>
-
 </configuration>

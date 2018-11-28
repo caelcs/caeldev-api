@@ -16,7 +16,7 @@ fun Application.main() {
     install(DefaultHeaders)
     install(ConditionalHeaders)
     install(Compression)
-    startKoin(listOf(metricsModule))
+    startKoin(listOf(adminModule))
 
     install(StatusPages) {
         exception<NotImplementedError> { call.respond(HttpStatusCode.NotImplemented) }

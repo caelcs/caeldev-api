@@ -13,7 +13,7 @@ import io.micrometer.prometheus.PrometheusMeterRegistry
 import org.koin.dsl.module.module
 import org.koin.ktor.ext.inject
 
-val metricsModule = module {
+val adminModule = module {
     single { MetricRegistry() }
 }
 
@@ -21,7 +21,7 @@ fun Routing.admin() {
 
     val metricRegistry: MetricRegistry by inject()
 
-    get("/health_check") {
+    get("/health") {
         call.respondText("OK")
     }
 

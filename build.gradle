@@ -6,6 +6,7 @@ buildscript {
         assertj_version = '3.11.1'
         builder4test_version = '0.1.12'
         logback_version = '1.2.3'
+        koin_version = '1.0.2'
     }
 }
 
@@ -32,9 +33,11 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation "org.jetbrains.kotlin:kotlin-reflect"
-    implementation "io.ktor:ktor-locations:$ktor_version"
+    implementation "io.ktor:ktor-metrics:$ktor_version"
     implementation "io.ktor:ktor-server-netty:$ktor_version"
     implementation "ch.qos.logback:logback-classic:$logback_version"
+    implementation "org.koin:koin-ktor:$koin_version"
+    implementation "io.micrometer:micrometer-registry-prometheus:1.1.0"
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$junit_version"

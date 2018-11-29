@@ -5,26 +5,27 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.testing.handleRequest
 import io.ktor.server.testing.withTestApplication
+import org.amshove.kluent.`should be`
+import org.amshove.kluent.`should not be null or blank`
+import org.amshove.kluent.`should not be`
 import org.koin.test.AutoCloseKoinTest
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 
 internal class AdminKtIntegrationTest: AutoCloseKoinTest() {
 
     @Test
     fun `health check endpoint should return success`(): Unit = withTestApplication(Application::main) {
         with(handleRequest(HttpMethod.Get, "/health")) {
-            assertEquals("OK", response.content)
-            assertEquals(HttpStatusCode.OK, response.status())
+            response.content.`should not be`("OK")
+            response.status().`should be`(HttpStatusCode.OK)
         }
     }
 
     @Test
     fun `metrics endpoint shuold return success`(): Unit = withTestApplication(Application::main) {
         with(handleRequest(HttpMethod.Get, "/metrics")) {
-            assertFalse(response.content.isNullOrBlank())
-            assertEquals(HttpStatusCode.OK, response.status())
+            response.content.`should not be null or blank`()
+            response.status().`should be`(HttpStatusCode.OK)
         }
     }
 }

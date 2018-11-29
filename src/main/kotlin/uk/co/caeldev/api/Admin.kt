@@ -4,6 +4,7 @@ import io.ktor.application.call
 import io.ktor.response.respondText
 import io.ktor.routing.Routing
 import io.ktor.routing.get
+import io.micrometer.core.instrument.binder.MeterBinder
 import io.micrometer.core.instrument.binder.jvm.ClassLoaderMetrics
 import io.micrometer.core.instrument.binder.jvm.JvmMemoryMetrics
 import io.micrometer.core.instrument.binder.jvm.JvmThreadMetrics
@@ -14,7 +15,7 @@ import org.koin.dsl.module.module
 import org.koin.ktor.ext.inject
 
 val adminModule = module {
-    single { MetricRegistry() }
+    single { MetricRegistry(listOf(ClassLoaderMetrics(), JvmMemoryMetrics(), JvmThreadMetrics(), ProcessorMetrics())) }
 }
 
 fun Routing.admin() {
@@ -30,15 +31,14 @@ fun Routing.admin() {
     }
 }
 
-class MetricRegistry {
+class MetricRegistry(metrics: List<MeterBinder>) {
 
     private val registry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
 
     init {
-        ClassLoaderMetrics().bindTo(registry)
-        JvmMemoryMetrics().bindTo(registry)
-        ProcessorMetrics().bindTo(registry)
-        JvmThreadMetrics().bindTo(registry)
+        metrics.forEach{
+            it -> it.bindTo(registry)
+        }
     }
 
     fun getMetrics(): String = registry.scrape()

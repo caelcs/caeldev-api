@@ -44,6 +44,9 @@ dependencies {
     testImplementation "org.assertj:assertj-core:$assertj_version"
     testImplementation "uk.co.caeldev:builder4test:$builder4test_version"
     testImplementation "io.mockk:mockk:$mockk_version"
+    testImplementation "org.koin:koin-test:1.0.2"
+    testImplementation "io.ktor:ktor-server-test-host:$ktor_version"
+
     testRuntime "org.junit.jupiter:junit-jupiter-engine:$junit_version"
 
 

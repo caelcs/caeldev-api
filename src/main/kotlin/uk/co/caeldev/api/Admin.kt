@@ -15,7 +15,8 @@ import org.koin.dsl.module.module
 import org.koin.ktor.ext.inject
 
 val adminModule = module {
-    single { MetricRegistry(listOf(ClassLoaderMetrics(), JvmMemoryMetrics(), JvmThreadMetrics(), ProcessorMetrics())) }
+    single { MetricRegistry(listOf(ClassLoaderMetrics(),
+            JvmMemoryMetrics(), JvmThreadMetrics(), ProcessorMetrics())) }
 }
 
 fun Routing.admin() {
@@ -37,7 +38,7 @@ class MetricRegistry(metrics: List<MeterBinder>) {
 
     init {
         metrics.forEach{
-            it -> it.bindTo(registry)
+            it.bindTo(registry)
         }
     }
 

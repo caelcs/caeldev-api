@@ -4,8 +4,8 @@ import io.micrometer.core.instrument.binder.MeterBinder
 import io.micrometer.core.instrument.binder.jvm.ClassLoaderMetrics
 import io.mockk.mockk
 import io.mockk.verify
-import kotlin.test.Test
-import kotlin.test.assertTrue
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.Test
 
 internal class MetricRegistryTest {
 
@@ -30,6 +30,6 @@ internal class MetricRegistryTest {
         val metrics = MetricRegistry(listOf(meterBinder)).getMetrics()
 
         //Then
-        assertTrue(metrics.isNotBlank());
+        assertThat(metrics).isNotBlank()
     }
 }
